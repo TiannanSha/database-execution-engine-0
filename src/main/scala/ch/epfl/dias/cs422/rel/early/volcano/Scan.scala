@@ -46,22 +46,56 @@ class Scan protected (
           * For this project, it's safe to assume scannable will always
           * be a [[RowStore]].
           */
-        ???
+        scannable.asInstanceOf[RowStore].getRow(rowId)
+    }
+  }
+
+  var inputTuples : IndexedSeq[Tuple] = IndexedSeq()
+  var nextTupleInd : Int = 0
+
+  /**
+    * @inheritdoc
+    */
+  override def open(): Unit = {
+    // init all global variables
+    nextTupleInd = 0
+
+    // get all tuples from the store one by one
+    // append new ones to the tail
+    for (rowId <- 0 to scannable.getRowCount.toInt - 1) {
+      println(rowId)
+      inputTuples = inputTuples.appended(scannable.asInstanceOf[RowStore].getRow(rowId.toInt))
+      val row = scannable.asInstanceOf[RowStore].getRow(rowId.toInt)
+      println(row)
+    }
+    val inputTuplesLength = inputTuples.length
+    println(s"inputTupleslength = $inputTuplesLength")
+  }
+
+  /**
+    * @inheritdoc
+    */
+  override def next(): Option[Tuple] = {
+    // if next exists
+    // get the tuple
+    // update the nextTuple
+    // return the tuple
+
+    if (nextTupleInd < inputTuples.length) {
+      println("!!!!!!!!!")
+      println(s"nextTupleInd = $nextTupleInd")
+      var nextTuple = Option(inputTuples.apply(nextTupleInd))
+      nextTupleInd+=1
+      return nextTuple
+    } else {
+      return NilTuple
     }
   }
 
   /**
     * @inheritdoc
     */
-  override def open(): Unit = ???
-
-  /**
-    * @inheritdoc
-    */
-  override def next(): Option[Tuple] = ???
-
-  /**
-    * @inheritdoc
-    */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+    // release memory
+  }
 }
