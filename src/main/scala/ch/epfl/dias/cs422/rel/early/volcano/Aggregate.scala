@@ -85,10 +85,6 @@ class Aggregate protected (
       }
       allAggedTuples = allAggedTuples :+ aggedTuple
     }
-    println("*****aggCalls******")
-    println(aggCalls)
-    println("*****allAggedTuples******")
-    println(allAggedTuples)
   }
 
   /**
