@@ -26,15 +26,39 @@ class Filter protected (
     (t: Tuple) => evaluator(t).asInstanceOf[Boolean]
   }
 
-  /**
-    * @inheritdoc
-    */
-  override def open(): Unit = ???
+  // state variables
+  var inputTuples : IndexedSeq[Tuple] = IndexedSeq()
+  var nextTupleInd : Int = 0
 
   /**
     * @inheritdoc
     */
-  override def next(): Option[Tuple] = ???
+  override def open(): Unit = {
+    // init variables
+    nextTupleInd = 0
+
+    // read in all input tuples
+    var inputIter = input.iterator
+    while(inputIter.hasNext) {
+      inputTuples = inputTuples :+ inputIter.next()
+    }
+  }
+
+  /**
+    * @inheritdoc
+    */
+  override def next(): Option[Tuple] = {
+    while (nextTupleInd < inputTuples.length){
+      var nextTuple = inputTuples.apply(nextTupleInd)
+      nextTupleInd += 1
+      // keep searching for next tuple that should pass the filter
+      if (predicate(nextTuple)) {
+        return Option(nextTuple)
+      }
+    }
+    // haven't found a tuple that satisfy the predicate
+    return NilTuple
+  }
 
   /**
     * @inheritdoc

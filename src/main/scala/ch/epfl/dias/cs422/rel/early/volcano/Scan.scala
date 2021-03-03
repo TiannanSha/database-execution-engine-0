@@ -57,19 +57,19 @@ class Scan protected (
     * @inheritdoc
     */
   override def open(): Unit = {
-    // init all global variables
+    // init vars
     nextTupleInd = 0
 
     // get all tuples from the store one by one
     // append new ones to the tail
     for (rowId <- 0 to scannable.getRowCount.toInt - 1) {
-      println(rowId)
+      //println(rowId)
       inputTuples = inputTuples.appended(scannable.asInstanceOf[RowStore].getRow(rowId.toInt))
       val row = scannable.asInstanceOf[RowStore].getRow(rowId.toInt)
-      println(row)
+      //println(row)
     }
     val inputTuplesLength = inputTuples.length
-    println(s"inputTupleslength = $inputTuplesLength")
+    //println(s"inputTupleslength = $inputTuplesLength")
   }
 
   /**
@@ -82,8 +82,6 @@ class Scan protected (
     // return the tuple
 
     if (nextTupleInd < inputTuples.length) {
-      println("!!!!!!!!!")
-      println(s"nextTupleInd = $nextTupleInd")
       var nextTuple = Option(inputTuples.apply(nextTupleInd))
       nextTupleInd+=1
       return nextTuple
