@@ -27,32 +27,48 @@ class Filter protected (
   }
 
   // state variables
-  var inputTuples : IndexedSeq[Tuple] = IndexedSeq()
+  var inputTuples = IndexedSeq[Tuple]()
   var nextTupleInd : Int = 0
+  var outputCount = 0
 
   /**
     * @inheritdoc
     */
   override def open(): Unit = {
     // init variables
+    inputTuples = IndexedSeq[Tuple]()
     nextTupleInd = 0
+    outputCount = 0
 
     // read in all input tuples
     var inputIter = input.iterator
+    var inputCount = 0
     while(inputIter.hasNext) {
       inputTuples = inputTuples :+ inputIter.next()
+      inputCount += 1
     }
+    println()
+    //println(inputTuples)
+    println("******in Filter******")
+    println(s"inputCount = $inputCount")
+    println(s"inputTUples.length = ${inputTuples.length}")
+    //println(s"inputTuples.length = ${inputTuples}")
+    println(s"condition = $condition")
+    println(s"inputTuples.filter(predicate).length = ${inputTuples.filter(predicate).length}")
+    println("******in Filter******")
   }
 
   /**
     * @inheritdoc
     */
   override def next(): Option[Tuple] = {
+    //println(s"outputCount = $outputCount")
     while (nextTupleInd < inputTuples.length){
-      var nextTuple = inputTuples.apply(nextTupleInd)
+      var nextTuple = inputTuples(nextTupleInd)
       nextTupleInd += 1
       // keep searching for next tuple that should pass the filter
       if (predicate(nextTuple)) {
+        outputCount += 1
         return Option(nextTuple)
       }
     }

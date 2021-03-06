@@ -36,14 +36,20 @@ class Project protected (
     */
   override def open(): Unit = {
     // init state variables
+    inputTuples = IndexedSeq[Tuple]()
     nextTupleInd = 0
 
     // read in all input tuples
     var inputIter = input.iterator
     while(inputIter.hasNext){
       inputTuples = inputTuples :+ inputIter.next()
-
     }
+    println()
+    println("*****in Project****")
+    println("inputTupleLength:")
+    println(inputTuples.length)
+    println("*****in Project****")
+    println()
   }
 
   /**
@@ -51,7 +57,7 @@ class Project protected (
     */
   override def next(): Option[Tuple] = {
     if (nextTupleInd < inputTuples.length){
-      var nextTuple = inputTuples.apply(nextTupleInd)
+      var nextTuple = inputTuples(nextTupleInd)
       nextTupleInd += 1
       // apply project function to get projected new tuple
       var nextTupleProjected = evaluator(nextTuple)

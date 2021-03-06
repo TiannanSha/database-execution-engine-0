@@ -23,18 +23,23 @@ class Aggregate protected (
   // group variable
 
   // state variables
-  var inputTuplesGrouped = Map[Tuple, IndexedSeq[Tuple]]()
+  //var inputTuplesGrouped = Map[Tuple, IndexedSeq[Tuple]]()
   var nextTupleInd : Int = 0
   var allAggedTuples = IndexedSeq[Tuple]() // each tuple is the result from aggregating a group
 
   // get the key (which is a smaller tuple) of a tuple
-  def getKey(t: Tuple): Tuple = {
-    var key = IndexedSeq()
+  def getKey(t: Tuple): IndexedSeq[Any] = {
+    var key = IndexedSeq[Any]()
     //var groupList = groupSet
     var groupSetIter = groupSet.iterator()
     while (groupSetIter.hasNext){
-      key :+ t(groupSetIter.next())
+      val nextK = groupSetIter.next()
+//      println(s"t(nextK.toInt)")
+//      println(t(nextK.toInt))
+//      println(s"in get key, nextK=$nextK")
+      key = key :+ t(nextK.toInt)
     }
+//    println(s"in get key, key = $key")
     return key
   }
 
@@ -44,13 +49,19 @@ class Aggregate protected (
   override def open(): Unit = {
 
     // init variables
+    allAggedTuples = IndexedSeq[Tuple]()
+    var inputTuplesGrouped = Map[IndexedSeq[Any], IndexedSeq[Tuple]]()
     nextTupleInd = 0
 
     // read each tuple into appropriate group
     var inputIter = input.iterator
+    var inputCount = 0
     while(inputIter.hasNext) {
+      inputCount+=1
       var nextInput = inputIter.next()
       var k = getKey(nextInput)
+//      println("in Agg")
+//      println(s"getKey(nextInput)=$k")
       // insert into the dictionary
       // if key already exists, append to the list
       // if key is new, add (key, listOfTuple) to the dictionary
@@ -61,6 +72,10 @@ class Aggregate protected (
         inputTuplesGrouped += (k->groupK.get.appended(nextInput))
       }
     }
+    println("In Aggregate")
+    println(s"inputTuplesGrouped.keys.size = ${inputTuplesGrouped.keys.size}")
+    println(s"inputCount = $inputCount")
+    println("IN Aggregate")
 
     // if all groups are empty, return default value for each agg
     if (inputTuplesGrouped.isEmpty) {
@@ -72,10 +87,12 @@ class Aggregate protected (
       return
     }
 
-    // aggregate each group if there are some non-empty groups
-    for (group <- inputTuplesGrouped.values) {
-      var aggedTuple = IndexedSeq[Any]()
-      // aggregate group
+    // aggregate each non-empty groups
+    for (key <- inputTuplesGrouped.keys) {
+      var group = inputTuplesGrouped(key)
+      var aggedTuple:Tuple = IndexedSeq()
+      // add keys first
+      aggedTuple = aggedTuple ++ key.asInstanceOf[Tuple]
       // for each aggregation, map group to agg args and reduce to get the final aggregated value
       // append all the aggregated values to get final aggregated tuple for a group
       for (agg <- aggCalls) {
@@ -85,6 +102,16 @@ class Aggregate protected (
       }
       allAggedTuples = allAggedTuples :+ aggedTuple
     }
+
+//    println("****in Aggregate****")
+//    println(s"inputLength=$inputCount")
+    println("inputTuplesGrouped.keys:")
+    println(inputTuplesGrouped.keys)
+    val outputLen = allAggedTuples.length
+    println(s"outputLength = $outputLen")
+    println(s"outputs = $allAggedTuples")
+    println()
+//    println("****in Aggregate****")
   }
 
   /**

@@ -58,6 +58,7 @@ class Scan protected (
     */
   override def open(): Unit = {
     // init vars
+    inputTuples = IndexedSeq[Tuple]()
     nextTupleInd = 0
 
     // get all tuples from the store one by one
@@ -68,8 +69,10 @@ class Scan protected (
       val row = scannable.asInstanceOf[RowStore].getRow(rowId.toInt)
       //println(row)
     }
+    println("****In Scan*****")
     val inputTuplesLength = inputTuples.length
-    //println(s"inputTupleslength = $inputTuplesLength")
+    println(s"inputLength = $inputTuplesLength")
+    println("****In Scan*****")
   }
 
   /**
