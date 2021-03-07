@@ -37,20 +37,37 @@ class Sort protected (
   // define ordering for tuple
   object TupleOrdering extends Ordering[Tuple] {
     def compare(t1:Tuple, t2:Tuple): Int = {
-      var keysIter = collation.getKeys.iterator()
+      //var keysIter = collation.getKeys.iterator()
       var result = 0
-      while (keysIter.hasNext) {
-        // compare collation keys one by one
-        // until a key differentiate the two tuples or all keys are compared
-        var k = keysIter.next()
-        //result = t1(k).asInstanceOf[Comparable[Elem]] compare t2(k).asInstanceOf[Comparable[Elem]]
-        result = t2(k).asInstanceOf[Comparable[Elem]] compare t1(k).asInstanceOf[Comparable[Elem]]
+//      while (keysIter.hasNext) {
+//        // compare collation keys one by one
+//        // until a key differentiate the two tuples or all keys are compared
+//        var k = keysIter.next()
+//        //result = t1(k).asInstanceOf[Comparable[Elem]] compare t2(k).asInstanceOf[Comparable[Elem]]
+//        result = t2(k).asInstanceOf[Comparable[Elem]] compare t1(k).asInstanceOf[Comparable[Elem]]
+//        if (result!=0) {
+//          return result
+//        }
+//        // else keep comparing other keys
+//      }
+      // e.g. field collation = [0 DESC, 2, 1, 3]
+      val fieldCollIter = collation.getFieldCollations.iterator()
+      while (fieldCollIter.hasNext) {
+        var fieldColl = fieldCollIter.next()
+        var fieldIndex = fieldColl.getFieldIndex
+        if (fieldColl.direction.isDescending) {
+          result = t1(fieldIndex).asInstanceOf[Comparable[Elem]] compare
+            t2(fieldIndex).asInstanceOf[Comparable[Elem]]
+        } else {
+          result = t2(fieldIndex).asInstanceOf[Comparable[Elem]] compare
+            t1(fieldIndex).asInstanceOf[Comparable[Elem]]
+        }
         if (result!=0) {
+          // we have decided a winner
           return result
         }
-        // else keep comparing other keys
       }
-      // all keys are the same
+      // all keys are the same, no winner
       return 0
     }
   }
@@ -65,13 +82,18 @@ class Sort protected (
     * @inheritdoc
     */
   override def open(): Unit = {
-    println()
-    println("**** In Sort ****")
+
 //    println("***IN Open")
-//    println(s"collation = $collation")
-//    val fieldColl = collation.getFieldCollations()
+    //println(s"collation = $collation")
+    val fieldCollIter = collation.getFieldCollations.iterator()
+    while (fieldCollIter.hasNext) {
+      var fieldColl = fieldCollIter.next()
+      //println(s"fieldColl.direction.isDescending = ${fieldColl.direction.isDescending}")
+      //println(s"fieldColl.getFieldIndex = ${fieldColl.getFieldIndex}")
+    }
+    val fieldColl0 = collation.getFieldCollations.get(0)
 //    val keys = collation.getKeys()
-//    println(s"fieldColls = $fieldColl")
+    //println(s"isDescending = ${fieldColl0.direction.isDescending}")
 //    println(s"keys = $keys")
 //    println(s"offset = $offset")
 //    println(s"fetch = $fetch")
@@ -90,10 +112,12 @@ class Sort protected (
       var nextInput = inputIter.next()
       pq.enqueue(nextInput)
     }
+
+    println()
+    println("**** In Sort ****")
     println(s"inputCount = $count")
-    println("****pq.size:****")
-    println(pq.size)
-    nTop = pq.size
+    println(s"pq.size = ${pq.size}")
+    //nTop = pq.size
 
     // select top *nTop* tuples and then drop *nDrop* tuples
     if (offset.isEmpty) {
@@ -103,7 +127,11 @@ class Sort protected (
     }
 
     if (!fetch.isEmpty) {
-      nTop = nDrop + fetch.get
+      // when fetch is specified, take the min(pq.size, fetch) number of tuples
+      nTop = nDrop + Math.min(fetch.get, pq.size)
+    } else {
+      // when not specifying fetch, want all available tuples
+      nTop = pq.size
     }
     println(s"nTop = $nTop")
 //    outputTuples = IndexedSeq(1 to nTop).map(_=>pq.dequeue)

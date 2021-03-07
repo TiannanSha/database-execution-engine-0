@@ -51,11 +51,15 @@ class Filter protected (
     //println(inputTuples)
     println("******in Filter******")
     println(s"inputCount = $inputCount")
-    println(s"inputTUples.length = ${inputTuples.length}")
-    //println(s"inputTuples.length = ${inputTuples}")
     println(s"condition = $condition")
+    println(s"inputTUples.length = ${inputTuples.length}")
+//    println("inputTuples:")
+//    for (i <- 0 to inputTuples.length-1) {
+//      println(inputTuples(i))
+//    }
     println(s"inputTuples.filter(predicate).length = ${inputTuples.filter(predicate).length}")
     println("******in Filter******")
+    println()
   }
 
   /**

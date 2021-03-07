@@ -48,6 +48,9 @@ class Aggregate protected (
     */
   override def open(): Unit = {
 
+    println(s"at the beginning, groupSet.isEmpty = ${groupSet.isEmpty}")
+    println(s"groupSet = ${groupSet}")
+
     // init variables
     allAggedTuples = IndexedSeq[Tuple]()
     var inputTuplesGrouped = Map[IndexedSeq[Any], IndexedSeq[Tuple]]()
@@ -77,9 +80,10 @@ class Aggregate protected (
     println(s"inputCount = $inputCount")
     println("IN Aggregate")
 
-    // if all groups are empty, return default value for each agg
-    if (inputTuplesGrouped.isEmpty) {
-      var aggedTuple = IndexedSeq[Any]()
+    // if all groups are empty and groupby clause is empty, return empty value for each agg
+    if (inputTuplesGrouped.isEmpty && groupSet.isEmpty) {
+      println(s"groupSet.isEmpty = ${groupSet.isEmpty}")
+      var aggedTuple:Tuple = IndexedSeq()
       for (agg <- aggCalls) {
         aggedTuple = aggedTuple :+ agg.emptyValue
       }
@@ -103,15 +107,17 @@ class Aggregate protected (
       allAggedTuples = allAggedTuples :+ aggedTuple
     }
 
-//    println("****in Aggregate****")
-//    println(s"inputLength=$inputCount")
+    println()
+    println("****in Aggregate****")
+    println(s"inputLength=$inputCount")
     println("inputTuplesGrouped.keys:")
     println(inputTuplesGrouped.keys)
     val outputLen = allAggedTuples.length
     println(s"outputLength = $outputLen")
-    println(s"outputs = $allAggedTuples")
+    //println(s"outputTuples = $allAggedTuples")
     println()
-//    println("****in Aggregate****")
+    println("****Exit Aggregate****")
+    println()
   }
 
   /**
