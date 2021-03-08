@@ -107,17 +107,17 @@ class Aggregate protected (
       allAggedTuples = allAggedTuples :+ aggedTuple
     }
 
-    println()
-    println("****in Aggregate****")
-    println(s"inputLength=$inputCount")
-    println("inputTuplesGrouped.keys:")
-    println(inputTuplesGrouped.keys)
-    val outputLen = allAggedTuples.length
-    println(s"outputLength = $outputLen")
-    //println(s"outputTuples = $allAggedTuples")
-    println()
-    println("****Exit Aggregate****")
-    println()
+//    println()
+//    println("****in Aggregate****")
+//    println(s"inputLength=$inputCount")
+//    println("inputTuplesGrouped.keys:")
+//    println(inputTuplesGrouped.keys)
+//    val outputLen = allAggedTuples.length
+//    println(s"outputLength = $outputLen")
+//    //println(s"outputTuples = $allAggedTuples")
+//    println()
+//    println("****Exit Aggregate****")
+//    println()
   }
 
   /**

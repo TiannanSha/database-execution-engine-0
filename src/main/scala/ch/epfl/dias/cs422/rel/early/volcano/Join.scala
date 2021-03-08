@@ -43,12 +43,12 @@ class Join(
     var leftHashmap = scala.collection.mutable.HashMap.empty[Tuple, IndexedSeq[Tuple]]
     nextTupleInd = 0
     allJoinedTuples = IndexedSeq[Tuple]()
-    var leftTuples = IndexedSeq[Tuple]()
+    //var leftTuples = IndexedSeq[Tuple]()
 
     // store all tuples from left table to the hash table
     // so that they are grouped by the left join key
     var leftIter = left.iterator
-    var leftCount = 0
+    //var leftCount = 0
     while (leftIter.hasNext) {
       var nextLeft = leftIter.next()
       var nextLeftKey = getKeyAsTuple(nextLeft, getLeftKeys)
@@ -56,13 +56,13 @@ class Join(
       // if this is a new key, insert a new (key->Seq(nextLeft))
       if (!leftHashmap.contains(nextLeftKey)) {
         leftHashmap += (nextLeftKey -> (IndexedSeq[Tuple]() :+ nextLeft))
-        leftCount += 1
-        leftTuples = leftTuples :+ nextLeft
+        //leftCount += 1
+        //leftTuples = leftTuples :+ nextLeft
       } else {
         // if this is a existing key, append to corresponding group
         leftHashmap += (  nextLeftKey -> (leftHashmap(nextLeftKey) :+ nextLeft)  )
-        leftCount += 1
-        leftTuples = leftTuples :+ nextLeft
+        //leftCount += 1
+        //leftTuples = leftTuples :+ nextLeft
       }
 
     }
@@ -94,20 +94,20 @@ class Join(
 //        }
 //      }
     }
-    println()
-    println("****In Join****")
-    println(s"getLeftKeys = $getLeftKeys")
-    println(s"getRightKeys = $getRightKeys")
-    val outputLen = allJoinedTuples.length
-    println(s"leftTuples = $leftTuples")
-    println(s"leftHashmap = $leftHashmap")
-    println("right tuples")
-    //println(rightTuples)
-    println(s"outputLength = $outputLen")
-    println(s"leftCount = $leftCount")
-    println(s"rightCount = $rightCount")
-    println("****In Join****")
-    println()
+//    println()
+//    println("****In Join****")
+//    println(s"getLeftKeys = $getLeftKeys")
+//    println(s"getRightKeys = $getRightKeys")
+//    val outputLen = allJoinedTuples.length
+//    println(s"leftTuples = $leftTuples")
+//    println(s"leftHashmap = $leftHashmap")
+//    println("right tuples")
+//    //println(rightTuples)
+//    println(s"outputLength = $outputLen")
+//    println(s"leftCount = $leftCount")
+//    println(s"rightCount = $rightCount")
+//    println("****In Join****")
+//    println()
   }
 
   /**

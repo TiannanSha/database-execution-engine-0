@@ -60,11 +60,11 @@ class Project protected (
       var nextTuple = inputTuples(nextTupleInd)
       nextTupleInd += 1
       // apply project function to get projected new tuple
-      println()
-      println("In project next, before evaluator(nextTuple)")
-      println(s"nextTuple = $nextTuple")
+//      println()
+//      println("In project next, before evaluator(nextTuple)")
+//      println(s"nextTuple = $nextTuple")
       var nextTupleProjected = evaluator(nextTuple)
-      println(s"evaluator(nextTuple) = ${nextTupleProjected} ")
+//      println(s"evaluator(nextTuple) = ${nextTupleProjected} ")
       return Option(nextTupleProjected)
     } else {
       return NilTuple

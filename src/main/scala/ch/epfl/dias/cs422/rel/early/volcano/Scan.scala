@@ -69,11 +69,11 @@ class Scan protected (
       //val row = scannable.asInstanceOf[RowStore].getRow(rowId.toInt)
       //println(row)
     }
-    println("****In Scan*****")
-    val inputTuplesLength = inputTuples.length
-    println(s"inputLength = $inputTuplesLength")
-    println(s"inputTuples = $inputTuples")
-    println("****In Scan*****")
+//    println("****In Scan*****")
+//    val inputTuplesLength = inputTuples.length
+//    println(s"inputLength = $inputTuplesLength")
+//    println(s"inputTuples = $inputTuples")
+//    println("****In Scan*****")
   }
 
   /**

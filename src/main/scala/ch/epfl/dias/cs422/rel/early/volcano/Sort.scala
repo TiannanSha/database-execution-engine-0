@@ -113,10 +113,10 @@ class Sort protected (
       pq.enqueue(nextInput)
     }
 
-    println()
-    println("**** In Sort ****")
-    println(s"inputCount = $count")
-    println(s"pq.size = ${pq.size}")
+//    println()
+//    println("**** In Sort ****")
+//    println(s"inputCount = $count")
+//    println(s"pq.size = ${pq.size}")
     //nTop = pq.size
 
     // select top *nTop* tuples and then drop *nDrop* tuples
@@ -138,11 +138,11 @@ class Sort protected (
     for (i <- 1 to nTop) {
       outputTuples = outputTuples :+ pq.dequeue()
     }
-    println("***outputTuples***")
-    println(outputTuples)
-
-    println("**** Exit Sort ****")
-    println()
+//    println("***outputTuples***")
+//    println(outputTuples)
+//
+//    println("**** Exit Sort ****")
+//    println()
   }
 
   /**
