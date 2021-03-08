@@ -57,12 +57,10 @@ class Join(
       if (!leftHashmap.contains(nextLeftKey)) {
         leftHashmap += (nextLeftKey -> (IndexedSeq[Tuple]() :+ nextLeft))
         //leftCount += 1
-        //leftTuples = leftTuples :+ nextLeft
       } else {
         // if this is a existing key, append to corresponding group
         leftHashmap += (  nextLeftKey -> (leftHashmap(nextLeftKey) :+ nextLeft)  )
         //leftCount += 1
-        //leftTuples = leftTuples :+ nextLeft
       }
 
     }
@@ -85,29 +83,8 @@ class Join(
           allJoinedTuples = allJoinedTuples :+ joinedTuple
         }
       }
-//      var leftTuplesMatched = leftHashmap.get(rightKey)
-//      if (!leftTuplesMatched.isEmpty) {
-//        // only need to add more joined tuples if there are matched left tuples
-//        for (l <- leftTuplesMatched) {
-//          var joinedTuple = l ++ nextRight
-//          allJoinedTuples = allJoinedTuples :+ joinedTuple
-//        }
-//      }
     }
-//    println()
-//    println("****In Join****")
-//    println(s"getLeftKeys = $getLeftKeys")
-//    println(s"getRightKeys = $getRightKeys")
-//    val outputLen = allJoinedTuples.length
-//    println(s"leftTuples = $leftTuples")
-//    println(s"leftHashmap = $leftHashmap")
-//    println("right tuples")
-//    //println(rightTuples)
-//    println(s"outputLength = $outputLen")
-//    println(s"leftCount = $leftCount")
-//    println(s"rightCount = $rightCount")
-//    println("****In Join****")
-//    println()
+
   }
 
   /**
@@ -127,5 +104,7 @@ class Join(
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }

@@ -34,12 +34,8 @@ class Aggregate protected (
     var groupSetIter = groupSet.iterator()
     while (groupSetIter.hasNext){
       val nextK = groupSetIter.next()
-//      println(s"t(nextK.toInt)")
-//      println(t(nextK.toInt))
-//      println(s"in get key, nextK=$nextK")
       key = key :+ t(nextK.toInt)
     }
-//    println(s"in get key, key = $key")
     return key
   }
 
@@ -48,8 +44,6 @@ class Aggregate protected (
     */
   override def open(): Unit = {
 
-//    println(s"at the beginning, groupSet.isEmpty = ${groupSet.isEmpty}")
-//    println(s"groupSet = ${groupSet}")
 
     // init variables
     allAggedTuples = IndexedSeq[Tuple]()
@@ -63,8 +57,7 @@ class Aggregate protected (
       inputCount+=1
       var nextInput = inputIter.next()
       var k = getKey(nextInput)
-//      println("in Agg")
-//      println(s"getKey(nextInput)=$k")
+
       // insert into the dictionary
       // if key already exists, append to the list
       // if key is new, add (key, listOfTuple) to the dictionary
@@ -75,10 +68,6 @@ class Aggregate protected (
         inputTuplesGrouped += (k->groupK.get.appended(nextInput))
       }
     }
-//    println("In Aggregate")
-//    println(s"inputTuplesGrouped.keys.size = ${inputTuplesGrouped.keys.size}")
-//    println(s"inputCount = $inputCount")
-//    println("IN Aggregate")
 
     // if all groups are empty and groupby clause is empty, return empty value for each agg
     if (inputTuplesGrouped.isEmpty && groupSet.isEmpty) {
@@ -106,18 +95,6 @@ class Aggregate protected (
       }
       allAggedTuples = allAggedTuples :+ aggedTuple
     }
-
-//    println()
-//    println("****in Aggregate****")
-//    println(s"inputLength=$inputCount")
-//    println("inputTuplesGrouped.keys:")
-//    println(inputTuplesGrouped.keys)
-//    val outputLen = allAggedTuples.length
-//    println(s"outputLength = $outputLen")
-//    //println(s"outputTuples = $allAggedTuples")
-//    println()
-//    println("****Exit Aggregate****")
-//    println()
   }
 
   /**
@@ -136,5 +113,7 @@ class Aggregate protected (
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }

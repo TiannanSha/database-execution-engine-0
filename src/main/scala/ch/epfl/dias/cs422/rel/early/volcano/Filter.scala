@@ -47,19 +47,6 @@ class Filter protected (
       inputTuples = inputTuples :+ inputIter.next()
       inputCount += 1
     }
-//    println()
-//    //println(inputTuples)
-//    println("******in Filter******")
-//    println(s"inputCount = $inputCount")
-//    println(s"condition = $condition")
-//    println(s"inputTUples.length = ${inputTuples.length}")
-//    println("inputTuples:")
-//    for (i <- 0 to inputTuples.length-1) {
-//      println(inputTuples(i))
-//    }
-//    println(s"inputTuples.filter(predicate).length = ${inputTuples.filter(predicate).length}")
-//    println("******in Filter******")
-//    println()
   }
 
   /**
@@ -83,5 +70,7 @@ class Filter protected (
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }

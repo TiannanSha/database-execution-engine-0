@@ -44,12 +44,6 @@ class Project protected (
     while(inputIter.hasNext){
       inputTuples = inputTuples :+ inputIter.next()
     }
-//    println()
-//    println("*****in Project****")
-//    println("inputTupleLength:")
-//    println(inputTuples.length)
-//    println("*****in Project****")
-//    println()
   }
 
   /**
@@ -60,11 +54,7 @@ class Project protected (
       var nextTuple = inputTuples(nextTupleInd)
       nextTupleInd += 1
       // apply project function to get projected new tuple
-//      println()
-//      println("In project next, before evaluator(nextTuple)")
-//      println(s"nextTuple = $nextTuple")
       var nextTupleProjected = evaluator(nextTuple)
-//      println(s"evaluator(nextTuple) = ${nextTupleProjected} ")
       return Option(nextTupleProjected)
     } else {
       return NilTuple
@@ -74,5 +64,7 @@ class Project protected (
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }

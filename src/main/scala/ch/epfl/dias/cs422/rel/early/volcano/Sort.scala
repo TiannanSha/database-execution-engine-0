@@ -22,34 +22,13 @@ class Sort protected (
     with ch.epfl.dias.cs422.helpers.rel.early.volcano.Operator {
 
   private var sorted = List[Tuple]()
-//  val keysIter = collation.getKeys.iterator()
-//  def tupleToKeys(t:Tuple):Tuple= {
-//    var key = IndexedSeq[Any]()
-//    while (keysIter.hasNext) {
-//      val k = keysIter.next()
-//      key = key :+ t(k).asInstanceOf[Comparable[Elem]]
-//    }
-//    return key
-//  }
-//  val orderingByKeys: Ordering[Tuple] = Ordering.by(t => tupleToKeys(t))
-
 
   // define ordering for tuple
   object TupleOrdering extends Ordering[Tuple] {
     def compare(t1:Tuple, t2:Tuple): Int = {
       //var keysIter = collation.getKeys.iterator()
       var result = 0
-//      while (keysIter.hasNext) {
-//        // compare collation keys one by one
-//        // until a key differentiate the two tuples or all keys are compared
-//        var k = keysIter.next()
-//        //result = t1(k).asInstanceOf[Comparable[Elem]] compare t2(k).asInstanceOf[Comparable[Elem]]
-//        result = t2(k).asInstanceOf[Comparable[Elem]] compare t1(k).asInstanceOf[Comparable[Elem]]
-//        if (result!=0) {
-//          return result
-//        }
-//        // else keep comparing other keys
-//      }
+
       // e.g. field collation = [0 DESC, 2, 1, 3]
       val fieldCollIter = collation.getFieldCollations.iterator()
       while (fieldCollIter.hasNext) {
@@ -83,20 +62,12 @@ class Sort protected (
     */
   override def open(): Unit = {
 
-//    println("***IN Open")
-    //println(s"collation = $collation")
     val fieldCollIter = collation.getFieldCollations.iterator()
     while (fieldCollIter.hasNext) {
       var fieldColl = fieldCollIter.next()
-      //println(s"fieldColl.direction.isDescending = ${fieldColl.direction.isDescending}")
-      //println(s"fieldColl.getFieldIndex = ${fieldColl.getFieldIndex}")
     }
     val fieldColl0 = collation.getFieldCollations.get(0)
-//    val keys = collation.getKeys()
-    //println(s"isDescending = ${fieldColl0.direction.isDescending}")
-//    println(s"keys = $keys")
-//    println(s"offset = $offset")
-//    println(s"fetch = $fetch")
+
 
     //init variables
     var pq = collection.mutable.PriorityQueue[Tuple]()(TupleOrdering)
@@ -112,12 +83,6 @@ class Sort protected (
       var nextInput = inputIter.next()
       pq.enqueue(nextInput)
     }
-
-//    println()
-//    println("**** In Sort ****")
-//    println(s"inputCount = $count")
-//    println(s"pq.size = ${pq.size}")
-    //nTop = pq.size
 
     // select top *nTop* tuples and then drop *nDrop* tuples
     if (offset.isEmpty) {
@@ -138,11 +103,6 @@ class Sort protected (
     for (i <- 1 to nTop) {
       outputTuples = outputTuples :+ pq.dequeue()
     }
-//    println("***outputTuples***")
-//    println(outputTuples)
-//
-//    println("**** Exit Sort ****")
-//    println()
   }
 
   /**
@@ -161,5 +121,7 @@ class Sort protected (
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }
