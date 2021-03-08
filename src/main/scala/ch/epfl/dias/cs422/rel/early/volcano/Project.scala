@@ -44,12 +44,12 @@ class Project protected (
     while(inputIter.hasNext){
       inputTuples = inputTuples :+ inputIter.next()
     }
-    println()
-    println("*****in Project****")
-    println("inputTupleLength:")
-    println(inputTuples.length)
-    println("*****in Project****")
-    println()
+//    println()
+//    println("*****in Project****")
+//    println("inputTupleLength:")
+//    println(inputTuples.length)
+//    println("*****in Project****")
+//    println()
   }
 
   /**

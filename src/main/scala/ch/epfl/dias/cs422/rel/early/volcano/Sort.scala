@@ -161,5 +161,7 @@ class Sort protected (
   /**
     * @inheritdoc
     */
-  override def close(): Unit = ???
+  override def close(): Unit = {
+
+  }
 }

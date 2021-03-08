@@ -48,8 +48,8 @@ class Aggregate protected (
     */
   override def open(): Unit = {
 
-    println(s"at the beginning, groupSet.isEmpty = ${groupSet.isEmpty}")
-    println(s"groupSet = ${groupSet}")
+//    println(s"at the beginning, groupSet.isEmpty = ${groupSet.isEmpty}")
+//    println(s"groupSet = ${groupSet}")
 
     // init variables
     allAggedTuples = IndexedSeq[Tuple]()
@@ -75,14 +75,14 @@ class Aggregate protected (
         inputTuplesGrouped += (k->groupK.get.appended(nextInput))
       }
     }
-    println("In Aggregate")
-    println(s"inputTuplesGrouped.keys.size = ${inputTuplesGrouped.keys.size}")
-    println(s"inputCount = $inputCount")
-    println("IN Aggregate")
+//    println("In Aggregate")
+//    println(s"inputTuplesGrouped.keys.size = ${inputTuplesGrouped.keys.size}")
+//    println(s"inputCount = $inputCount")
+//    println("IN Aggregate")
 
     // if all groups are empty and groupby clause is empty, return empty value for each agg
     if (inputTuplesGrouped.isEmpty && groupSet.isEmpty) {
-      println(s"groupSet.isEmpty = ${groupSet.isEmpty}")
+      //println(s"groupSet.isEmpty = ${groupSet.isEmpty}")
       var aggedTuple:Tuple = IndexedSeq()
       for (agg <- aggCalls) {
         aggedTuple = aggedTuple :+ agg.emptyValue
